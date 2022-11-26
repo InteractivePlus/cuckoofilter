@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	altHash [maxFingerprint]uint
+	altHash = [maxFingerprint]uint{}
 	rng     wyhash.SRNG
 )
 
