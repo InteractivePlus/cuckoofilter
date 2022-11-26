@@ -9,13 +9,14 @@ import (
 )
 
 var (
-	altHash = [maxFingerprint]uint{}
+	// plus 1 to prevent out of range.
+	altHash = [maxFingerprint + 1]uint{}
 	rng     wyhash.SRNG
 )
 
 // randi returns either i1 or i2 randomly.
 func randi(i1, i2 uint) uint {
-	// it's faster than mod, but the result is almost same.
+	// it's faster than mod, but the result is the almost same.
 	if uint32(uint64(uint32(rng.Uint64()))*uint64(2)>>32) == 0 {
 		return i1
 	}
@@ -33,7 +34,7 @@ func getEndian() (endian binary.ByteOrder) {
 func init() {
 	b := make([]byte, 2)
 	endian := getEndian()
-	for i := 0; i < maxFingerprint; i++ {
+	for i := 0; i < maxFingerprint+1; i++ {
 		endian.PutUint16(b, uint16(i))
 		altHash[i] = (uint(xxh3.Hash(b)))
 	}
